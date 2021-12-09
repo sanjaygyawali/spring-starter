@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
+jwt:
+  access-secret: 6xn3qdctOU2oGgTQHKXcn7JFnvbcVXxSf7fIBP5rfn0
+  refresh-secret: 6xn3qdctOU2oGgTQHKXcn7JFnvbcVXxSf7fIBP5rfn0
+  access-validity: 30000
+  refresh-validity: 50000
+  issuer: https://rasello.com
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
