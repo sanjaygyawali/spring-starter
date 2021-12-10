@@ -6,10 +6,13 @@ import com.rasello.auth.base.annotation.Post;
 import com.rasello.auth.base.annotation.Put;
 import com.rasello.auth.response.ApiListResponse;
 import com.rasello.auth.response.ApiResponse;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-public abstract class CrudController<T, V> {
+import javax.validation.Valid;
+
+public abstract class CrudController<T, V, D> {
     protected abstract Class<?> getEntityClass();
 
     protected abstract Class<?> getIdClass();
@@ -27,12 +30,12 @@ public abstract class CrudController<T, V> {
     }
 
     @Post
-    protected ApiResponse<T> create(@RequestBody BaseDto<T> body) {
+    protected ApiResponse<T> create(@Validated @RequestBody D body) {
         return new ApiResponse<>();
     }
 
     @Put("{id}")
-    protected ApiResponse<T> update(@PathVariable("id") V id, @RequestBody BaseDto<T> body) {
+    protected ApiResponse<T> update(@PathVariable("id") V id, @RequestBody D body) {
         return new ApiResponse<>();
     }
 

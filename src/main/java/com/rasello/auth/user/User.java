@@ -24,6 +24,8 @@ public class User implements UserDetails {
 
     private String email;
 
+    private Integer age = 21;
+
     @JsonIgnore
     private String password;
 

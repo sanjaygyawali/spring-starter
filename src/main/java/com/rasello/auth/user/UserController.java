@@ -1,7 +1,7 @@
 package com.rasello.auth.user;
 
-import com.rasello.auth.base.CrudController;
 import com.rasello.auth.base.DatatableController;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,7 +9,8 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/user")
-public class UserController extends DatatableController<User, UUID> {
+@Validated
+public class UserController extends DatatableController<User, UUID, UserDto> {
 
     @Override
     protected Class<?> getEntityClass() {
@@ -22,7 +23,7 @@ public class UserController extends DatatableController<User, UUID> {
     }
 
     @Override
-    protected Class<?> getRequestDtoClass(){
-        return User.class;
+    protected Class<?> getRequestDtoClass() {
+        return UserDto.class;
     }
 }

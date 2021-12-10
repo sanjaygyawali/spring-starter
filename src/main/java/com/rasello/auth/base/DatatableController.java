@@ -5,7 +5,7 @@ import com.rasello.auth.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 
-public abstract class DatatableController<T, I> extends CrudController<T, I> {
+public abstract class DatatableController<T, I, D> extends CrudController<T, I, D> {
     @Autowired
     private DefaultTableService tableService;
 

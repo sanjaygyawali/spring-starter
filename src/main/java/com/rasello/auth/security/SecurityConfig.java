@@ -2,6 +2,7 @@ package com.rasello.auth.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -13,18 +14,25 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Arrays;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtTokenHandler jwtTokenHandler;
+    private final Environment environment;
 
-    public SecurityConfig(JwtTokenHandler jwtTokenHandler) {
+    public SecurityConfig(JwtTokenHandler jwtTokenHandler, Environment environment) {
         this.jwtTokenHandler = jwtTokenHandler;
+        this.environment = environment;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        if (Arrays.asList(environment.getActiveProfiles()).contains("dev"))
+            http.headers().frameOptions().disable();
+
         http.csrf().disable()
                 .cors()
                 .and()
