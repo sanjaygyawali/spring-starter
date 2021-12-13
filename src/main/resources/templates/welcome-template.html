@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Welcome</title>
+    <style>
+        body {
+            font: 16px Arial, sans-serif;
+        }
+
+    </style>
+</head>
+<body style="background: #cccccc; height: 200px ">
+    <div style="margin: 20px; padding: 30px; background: #ffffff;">
+        <h4 th:text="'Welcome ' + ${name} + ','">Welcome User,</h4>
+        <p>
+            Your account was created in the system. Please find your username and password below
+        </p>
+        <span th:text="'Email: ' + ${email}">Email: lamsal.av@gmail.com</span>
+        <br/>
+        <span th:text="'Password: ' + ${password}">Email: test123</span>
+        <br/>
+        <p th:text="'For more info please visit ' + ${link}">th:text="For more info please visit ${link}</p>
+        <h4>System Team</h4>
+    </div>
+</body>
+</html>

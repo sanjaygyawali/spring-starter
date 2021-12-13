@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -42,5 +43,9 @@ public class UserService implements UserDetailsService {
 
         var admin = new User("admin@gmail.com", "N3pal@312!", savedAdminRole);
         userRepository.save(admin);
+    }
+
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
 }
