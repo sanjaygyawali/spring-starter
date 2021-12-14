@@ -1,7 +1,6 @@
 package com.rasello.auth.validation.validator;
 
 import com.rasello.auth.validation.annotation.MatchingFields;
-import com.thoughtworks.xstream.InitializationException;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -17,7 +16,7 @@ public class MatchingFieldsConstraintValidator implements ConstraintValidator<Ma
     public void initialize(MatchingFields constraintAnnotation) {
         fields = Arrays.asList(constraintAnnotation.fields());
         if (fields.size() < 2)
-            throw new InitializationException("Fields size cannot less than 2");
+            throw new IllegalArgumentException("Fields size cannot less than 2");
     }
 
     @NotBlank

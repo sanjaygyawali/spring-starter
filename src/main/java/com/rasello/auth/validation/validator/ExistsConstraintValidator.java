@@ -1,7 +1,6 @@
 package com.rasello.auth.validation.validator;
 
 import com.rasello.auth.validation.annotation.Exists;
-import com.thoughtworks.xstream.InitializationException;
 
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintValidator;
@@ -28,7 +27,7 @@ public class ExistsConstraintValidator implements ConstraintValidator<Exists, Ob
         entityFields = Arrays.asList(constraintAnnotation.entityFields());
         valueFields = Arrays.asList(constraintAnnotation.valueFields());
         if (entityFields.size() <= valueFields.size())
-            throw new InitializationException("Entity and value fields size do not match");
+            throw new IllegalArgumentException("Entity and value fields size do not match");
     }
 
     @Override

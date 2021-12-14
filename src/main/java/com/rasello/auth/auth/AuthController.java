@@ -13,9 +13,9 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @PutMapping
+    /*@PutMapping
     public ApiResponse<?> resetPassword(){
         var user = userService.getAll().get(0);
 
-    }
+    }*/
 }

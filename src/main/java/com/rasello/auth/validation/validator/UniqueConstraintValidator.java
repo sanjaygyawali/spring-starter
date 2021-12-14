@@ -1,18 +1,14 @@
 package com.rasello.auth.validation.validator;
 
 import com.rasello.auth.validation.annotation.Unique;
-import com.thoughtworks.xstream.InitializationException;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import javax.validation.constraints.NotBlank;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 
-@Component
 public class UniqueConstraintValidator implements ConstraintValidator<Unique, Object> {
     private List<String> fields;
     private Class<?> entityClass;
@@ -27,38 +23,39 @@ public class UniqueConstraintValidator implements ConstraintValidator<Unique, Ob
         fields = Arrays.asList(constraintAnnotation.fields());
         entityClass = constraintAnnotation.entity();
         if (fields.size() <= 0)
-            throw new InitializationException("Fields cannot be empty");
+            throw new IllegalArgumentException("Fields cannot be empty");
     }
 
-    @NotBlank
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         if (fields.isEmpty())
             throw new IllegalArgumentException("No fields supplied in validation");
-        var queryString = String.format("select count(d) from %s d", entityClass.getName());
+        var queryString = String.format("select count(d) from %s d", entityClass.getSimpleName());
         var whereClauseBuilder = new StringBuilder();
         for (int i = 0; i < fields.size(); i++) {
 
             if (i > 0)
                 whereClauseBuilder.append(" and ");
-            whereClauseBuilder.append("a.")
+            whereClauseBuilder.append("d.")
                     .append(fields.get(i))
                     .append(" = ")
                     .append(":field")
                     .append(i);
         }
         var query = entityManager.
-                createQuery(String.format("%s where %s", queryString, whereClauseBuilder.toString()), entityClass);
+                createQuery(String.format("%s where %s", queryString, whereClauseBuilder.toString()));
 
         for (int i = 0; i < fields.size(); i++) {
             try {
-                var field = value.getClass().getField(fields.get(i));
+                var field = value.getClass().getDeclaredField(fields.get(i));
+                field.setAccessible(true);
                 query.setParameter("field" + i, field.get(value));
             } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
                 throw new IllegalStateException(e.getMessage());
             }
         }
-        var count = ((BigInteger) query.getSingleResult()).intValue();
+        var count = ((Long) query.getSingleResult()).intValue();
         return count <= 0;
     }
 }
