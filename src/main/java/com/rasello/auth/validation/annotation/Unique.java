@@ -13,7 +13,8 @@ import java.lang.annotation.*;
 public @interface Unique {
     String message() default "Field already exists";
     Class<?> entity();
-    String[] fields();
+    String[] entityFields();
+    String[] valueFields();
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

@@ -16,11 +16,11 @@
         <p>
             Your account was created in the system. Please find your username and password below
         </p>
-        <span th:text="'Email: ' + ${email}">Email: lamsal.av@gmail.com</span>
+        <span>Email    : <strong th:text="${email}">user@email.com</strong></span>
         <br/>
-        <span th:text="'Password: ' + ${password}">Email: test123</span>
+        <span>Password: <strong th:text="${password}">password</strong></span>
         <br/>
-        <p th:text="'For more info please visit ' + ${link}">th:text="For more info please visit ${link}</p>
+        <span>For more info please visit <a th:text="${link}" th:href="${link}" href="http://localhost:8080/reset-password?token=123">http://localhost:8080/reset-password?token=123</a></span>
         <h4>System Team</h4>
     </div>
 </body>

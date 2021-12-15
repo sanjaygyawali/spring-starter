@@ -5,17 +5,14 @@ import com.rasello.auth.validation.annotation.Exists;
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class ExistsConstraintValidator implements ConstraintValidator<Exists, Object> {
-    private final EntityManager entityManager;
-
-    private Class<?> entityClass;
     private List<String> entityFields;
     private List<String> valueFields;
+    private Class<?> entityClass;
+    private final EntityManager entityManager;
 
     public ExistsConstraintValidator(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -23,42 +20,45 @@ public class ExistsConstraintValidator implements ConstraintValidator<Exists, Ob
 
     @Override
     public void initialize(Exists constraintAnnotation) {
-        entityClass = constraintAnnotation.entity();
         entityFields = Arrays.asList(constraintAnnotation.entityFields());
         valueFields = Arrays.asList(constraintAnnotation.valueFields());
-        if (entityFields.size() <= valueFields.size())
-            throw new IllegalArgumentException("Entity and value fields size do not match");
+        entityClass = constraintAnnotation.entity();
+        if (entityFields.size() <= 0)
+            throw new IllegalArgumentException("Fields cannot be empty");
+        if (entityFields.size() != valueFields.size())
+            throw new IllegalArgumentException("Entity fields and value fields should be of same length");
     }
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-
-        if (entityFields.isEmpty())
+        if (valueFields.isEmpty())
             throw new IllegalArgumentException("No fields supplied in validation");
-        var queryString = String.format("select count(d) from %s d", entityClass.getName());
+        var queryString = String.format("select count(d) from %s d", entityClass.getSimpleName());
         var whereClauseBuilder = new StringBuilder();
-        for (int i = 0; i < entityFields.size(); i++) {
+        for (int i = 0; i < valueFields.size(); i++) {
 
             if (i > 0)
                 whereClauseBuilder.append(" and ");
-            whereClauseBuilder.append("a.")
+            whereClauseBuilder.append("d.")
                     .append(entityFields.get(i))
                     .append(" = ")
                     .append(":field")
                     .append(i);
         }
         var query = entityManager.
-                createQuery(String.format("%s where %s", queryString, whereClauseBuilder.toString()), entityClass);
+                createQuery(String.format("%s where %s", queryString, whereClauseBuilder.toString()));
 
-        for (int i = 0; i < entityFields.size(); i++) {
+        for (int i = 0; i < valueFields.size(); i++) {
             try {
-                var field = value.getClass().getField(valueFields.get(i));
+                var field = value.getClass().getDeclaredField(valueFields.get(i));
+                field.setAccessible(true);
                 query.setParameter("field" + i, field.get(value));
             } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
                 throw new IllegalStateException(e.getMessage());
             }
         }
-        var count = ((BigInteger) query.getSingleResult()).intValue();
+        var count = ((Long) query.getSingleResult()).intValue();
         return count > 0;
     }
 }

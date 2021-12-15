@@ -11,3 +11,4 @@ jwt:
   access-validity: 30000
   refresh-validity: 50000
   issuer: https://rasello.com
+

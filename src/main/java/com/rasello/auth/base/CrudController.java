@@ -6,6 +6,7 @@ import com.rasello.auth.base.annotation.Post;
 import com.rasello.auth.base.annotation.Put;
 import com.rasello.auth.response.ApiListResponse;
 import com.rasello.auth.response.ApiResponse;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;

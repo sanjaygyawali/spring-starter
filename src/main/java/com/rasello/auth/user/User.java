@@ -24,10 +24,14 @@ public class User implements UserDetails {
 
     private String email;
 
-    private Integer age = 21;
-
     @JsonIgnore
     private String password;
+
+    private String firstName;
+
+    private String middleName;
+
+    private String lastName;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
@@ -87,12 +91,13 @@ public class User implements UserDetails {
         return this.active;
     }
 
-    public User(String email, String password, Role role) {
+    public User(String email, String password, String firstName, String middleName, String lastName, Role role) {
         this.email = email;
         this.password = password;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
         this.role = role;
         this.active = true;
-        this.expired = false;
-        this.locked = false;
     }
 }
