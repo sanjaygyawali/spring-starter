@@ -2,6 +2,8 @@ package com.rasello.auth.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rasello.auth.role.Role;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,6 +17,8 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {

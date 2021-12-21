@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public abstract class DatatableController<T, I, D> extends CrudController<T, I, D> {
     @Autowired
-    private DefaultTableService tableService;
+    private TableService tableService;
 
     @Post("table")
     protected ApiResponse<?>  generateDataTable(@RequestBody TableRequest request){

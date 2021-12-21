@@ -1,7 +1,7 @@
 package com.rasello.auth.security;
 
 import com.rasello.auth.user.User;
-import com.rasello.auth.user.UserService;
+import com.rasello.auth.user.UserServiceImpl;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -30,10 +30,10 @@ public class JwtTokenHandler {
     @Value("${jwt.refresh-validity}")
     protected Long refreshValidity;
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @Autowired
-    public JwtTokenHandler(UserService userService) {
+    public JwtTokenHandler(UserServiceImpl userService) {
         this.userService = userService;
     }
 

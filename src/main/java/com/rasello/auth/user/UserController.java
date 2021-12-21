@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 @Validated
 public class UserController extends DatatableController<User, UUID, UserDto> {
 
     @Override
-    protected Class<?> getEntityClass() {
+    protected Class<User> getEntityClass() {
         return User.class;
     }
 

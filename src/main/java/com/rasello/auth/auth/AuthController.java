@@ -3,13 +3,19 @@ package com.rasello.auth.auth;
 import com.rasello.auth.mail.EmailService;
 import com.rasello.auth.mail.Mail;
 import com.rasello.auth.response.ApiResponse;
-import com.rasello.auth.user.UserService;
+import com.rasello.auth.security.JwtData;
+import com.rasello.auth.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
@@ -17,10 +23,11 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/auth")
 public class AuthController {
-    private final UserService userService;
+    private final UserServiceImpl userService;
     private final EmailService emailService;
     private final ResetTokenService resetTokenService;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
 
     @Value("${server.domain}")
     protected String domain;
@@ -28,23 +35,30 @@ public class AuthController {
     @Value("mail.username")
     protected String fromEmail;
 
-    public AuthController(UserService userService, EmailService emailService, ResetTokenService resetTokenService, PasswordEncoder passwordEncoder) {
+    public AuthController(UserServiceImpl userService, EmailService emailService, ResetTokenService resetTokenService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
         this.userService = userService;
         this.emailService = emailService;
         this.resetTokenService = resetTokenService;
         this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+    }
+
+    @PostMapping("login")
+    public ApiResponse<JwtData> login(@Valid @RequestBody LoginDto request){
+        var user = userService.getByEmail(request.getEmail());
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword()))
+            return new ApiResponse<>(404, "Invalid credential");
+        return new ApiResponse<>(200, "Success");
     }
 
     @GetMapping("forgot-password")
     public ApiResponse<?> forgotPassword(@RequestParam String email) {
-        var user = userService.getByEmail(email).orElse(null);
-        if (user == null) {
-            return new ApiResponse<>(404, "Email does not exist");
-        }
+        var user = userService.getByEmail(email);
         var token = UUID.randomUUID().toString();
         var expiryDate = new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000);
         var resetToken = new ResetToken(user.getId(), token, expiryDate);
         resetTokenService.save(resetToken);
+
         var mail = new Mail();
         mail.setFrom(fromEmail);
         mail.setTo(user.getEmail());
@@ -90,6 +104,42 @@ public class AuthController {
             return new ApiResponse<>(500, "Token already expired");
         }
         var user = userService.getUser(resetToken.getUserId());
+        SecurityContextHolder.getContext().setAuthentication(new Authentication() {
+            @Override
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                return null;
+            }
+
+            @Override
+            public Object getCredentials() {
+                return null;
+            }
+
+            @Override
+            public Object getDetails() {
+                return null;
+            }
+
+            @Override
+            public Object getPrincipal() {
+                return null;
+            }
+
+            @Override
+            public boolean isAuthenticated() {
+                return false;
+            }
+
+            @Override
+            public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
+
+            }
+
+            @Override
+            public String getName() {
+                return null;
+            }
+        });
         user.setPassword(passwordEncoder.encode(passwordDto.getPassword()));
         userService.save(user);
         resetToken.setExpiredAt(new Date());

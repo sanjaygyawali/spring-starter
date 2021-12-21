@@ -4,10 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Data
@@ -20,8 +17,10 @@ public class Permission implements GrantedAuthority {
     @GeneratedValue(generator = "UUID")
     private UUID id;
 
+    @Column(unique = true)
     private String slug;
 
+    @Column(unique = true)
     private String name;
 
     private String description;

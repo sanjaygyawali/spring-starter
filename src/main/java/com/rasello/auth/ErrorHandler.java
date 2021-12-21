@@ -1,5 +1,6 @@
 package com.rasello.auth;
 
+import com.rasello.auth.exception.RecordNotFoundException;
 import com.rasello.auth.response.ApiResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,9 +30,15 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.ok(new ApiResponse<>(500, e.getMessage()));
     }
 
+    @ExceptionHandler(RecordNotFoundException.class)
+    protected ResponseEntity<ApiResponse<?>> handleNotFoundErrors(RecordNotFoundException e, WebRequest request) {
+        return ResponseEntity.ok(new ApiResponse<>(404, e.getMessage()));
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         var errors = ex.getAllErrors();
         return super.handleMethodArgumentNotValid(ex, headers, status, request);
     }
+
 }

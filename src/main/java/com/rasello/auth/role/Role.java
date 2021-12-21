@@ -1,6 +1,9 @@
 package com.rasello.auth.role;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rasello.auth.permission.Permission;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,6 +15,8 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -25,6 +30,7 @@ public class Role {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "role_permission",
             joinColumns = @JoinColumn(name = "role_id"),

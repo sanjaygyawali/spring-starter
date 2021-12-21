@@ -26,6 +26,7 @@ public class DefaultTableService implements TableService {
     }
 
 
+    @Override
     public <E, I> TableResponse<E> getDatatable(Class<E> entityClass, Class<I> idClass, TableRequest request) {
         var spec = this.createSpecification(entityClass, request);
         var repositories = new Repositories(context);

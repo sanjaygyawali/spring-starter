@@ -6,19 +6,18 @@ import com.rasello.auth.base.annotation.Post;
 import com.rasello.auth.base.annotation.Put;
 import com.rasello.auth.response.ApiListResponse;
 import com.rasello.auth.response.ApiResponse;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 
 public abstract class CrudController<T, V, D> {
-    /*protected Class<T> getEntityType(){
-        return
-    }*/
-    protected abstract Class<?> getEntityClass();
+    @Autowired
+    protected CrudService crudService;
+
+    protected abstract Class<T> getEntityClass();
 
     protected abstract Class<?> getIdClass();
 
@@ -26,12 +25,15 @@ public abstract class CrudController<T, V, D> {
 
     @Get
     protected ApiListResponse<T> getAll() {
-        return new ApiListResponse<>();
+        var entityClass = this.getEntityClass();
+        var data = crudService.getAll(entityClass);
+        return new ApiListResponse<T>(200, "Success", data);
     }
 
     @Get("{id}")
     protected ApiResponse<T> get(@PathVariable("id") V id) {
-        return new ApiResponse<>();
+        var data = crudService.get(id, getEntityClass());
+        return new ApiResponse<>(200, "Success", data);
     }
 
     @Post
