@@ -141,7 +141,7 @@ public class AuthController {
             }
         });
         user.setPassword(passwordEncoder.encode(passwordDto.getPassword()));
-        userService.save(user);
+        //userService.save(user);
         resetToken.setExpiredAt(new Date());
         resetTokenService.save(resetToken);
         return new ApiResponse<>(200, "Password successfully reset");

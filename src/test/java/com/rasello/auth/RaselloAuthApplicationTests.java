@@ -18,9 +18,4 @@ class RaselloAuthApplicationTests {
         SpringApplication.run(RaselloAuthApplication.class, args);
     }
 
-    @Test
-    void contextLoads() {
-
-    }
-
 }
