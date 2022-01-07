@@ -14,7 +14,7 @@ public @interface Exists {
     String message() default "{javax.validation.constraints.NotBlank.message}";
     Class<?> entity();
     String[] entityFields();
-    String[] valueFields();
+    String[] valueFields() default {};
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

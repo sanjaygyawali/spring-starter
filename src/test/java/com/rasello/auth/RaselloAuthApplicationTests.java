@@ -1,21 +1,26 @@
 package com.rasello.auth;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-@SpringBootTest()
-@AutoConfigureMockMvc
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+@SpringBootTest
 class RaselloAuthApplicationTests {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public static void main(String[] args) {
-        SpringApplication.run(RaselloAuthApplication.class, args);
+    @Mock
+    private RaselloAuthApplication authApplication;
+
+    @Test
+    public void contextLoads() {
+        assertThat(passwordEncoder).isNotNull();
     }
 
 }

@@ -1,3 +1,7 @@
+server:
+  port: 8888
+  domain: http://localhost
+
 spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
@@ -12,3 +16,18 @@ jwt:
   refresh-validity: 50000
   issuer: https://rasello.com
 
+mail:
+  host: smtp.gmail.com
+  port: 587
+  username: info.av91@gmail.com
+  password: N3pal@312!
+  debug: true
+  smtp:
+    auth: true
+    starttls: true
+  transport:
+    protocol: smtp
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
