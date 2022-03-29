@@ -1,5 +1,5 @@
 server:
-  port: 80
+  port: 8888
   domain: http://localhost
 
 spring:
@@ -36,3 +36,29 @@ mail:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+
+camunda.bpm:
+#  admin-user:
+#    id: demo
+#    password: demo
+#    firstName: Demo
+#    lastName: Demo
+  filter:
+    create: All Tasks
+  authorization:
+    enabled: true
+
+keycloak:
+  realm: camunda
+  auth-server-url: http://124.41.241.106:8080/auth/
+  resource: camunda-identity-service
+  ssl-required: none
+  credentials.secret : pdgDzBNzeYkJmxHfUC1KjU4v5BwQ9myb
+
+plugin.identity.keycloak:
+  keycloakIssuerUrl: http://124.41.241.106:8080/auth/realms/camunda
+  keycloakAdminUrl: http://124.41.241.106:8080/auth/admin/realms/camunda
+  clientId: camunda-identity-service
+  clientSecret: pdgDzBNzeYkJmxHfUC1KjU4v5BwQ9myb
+  useUsernameAsCamundaUserId: true
+  disableSSLCertificateValidation: true

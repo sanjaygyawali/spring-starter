@@ -5,8 +5,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Data
-@NoArgsConstructor
+//@Data
+//@NoArgsConstructor
 public class JwtData {
     private String accessToken;
     private String refreshToken;

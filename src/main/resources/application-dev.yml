@@ -1,6 +1,6 @@
 server:
-  port: 8080
-  domain: http://localhost:8080
+  port: 8088
+  domain: http://localhost
 
 spring:
   datasource:
@@ -13,3 +13,7 @@ spring:
     console:
       enabled: true
       path: /h2
+management:
+  endpoint:
+    metrics:
+      enabled: false

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.UUID;
 
-@Service
+//@Service
 public class JwtTokenHandler {
 
     @Value("${jwt.access-secret}")
