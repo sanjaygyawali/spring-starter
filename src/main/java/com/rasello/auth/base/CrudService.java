@@ -10,4 +10,6 @@ public interface CrudService {
     <T> List<T> getAll(Class<T> clazz);
 
     <T, V> T get(V id, Class<T> clazz);
+
+    <T, D> D save(T row, Class<D> dtoClass);
 }

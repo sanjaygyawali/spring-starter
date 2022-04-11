@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @RestController
-@RequestMapping("forms")
+@RequestMapping("test-forms")
 @RequiredArgsConstructor
 @EntityController(entity = Forms.class,dto = Forms.class, id=Long.class )
 public class CrudTestController extends CrudController<Forms, Long, Forms> {
@@ -50,7 +50,7 @@ public class CrudTestController extends CrudController<Forms, Long, Forms> {
     @PostMapping("/save")
     public  BaseEntity save(@RequestBody Forms item){
         var formModelService = DatabaseServices.getModelService("forms");
-        formModelService.save(item);
+//        formModelService.save(item);
         return item;
     }
 

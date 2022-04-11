@@ -20,8 +20,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
-@RestController
-@RequestMapping("api/auth")
+//@RestController
+//@RequestMapping("api/auth")
 public class AuthController {
     private final UserServiceImpl userService;
     private final EmailService emailService;

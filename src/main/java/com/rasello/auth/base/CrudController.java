@@ -1,9 +1,6 @@
 package com.rasello.auth.base;
 
-import com.rasello.auth.base.annotation.Delete;
-import com.rasello.auth.base.annotation.Get;
-import com.rasello.auth.base.annotation.Post;
-import com.rasello.auth.base.annotation.Put;
+import com.rasello.auth.base.annotation.*;
 import com.rasello.auth.response.ApiListResponse;
 import com.rasello.auth.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +14,17 @@ public abstract class CrudController<T, V, D> {
     @Autowired
     protected CrudService crudService;
 
-    protected abstract Class<T> getEntityClass();
+    protected Class<T> getEntityClass() {
+        return (Class<T>) this.getClass().getAnnotation(EntityController.class).entity();
+    }
 
-    protected abstract Class<?> getIdClass();
+    protected Class<V> getIdClass() {
+        return (Class<V>) this.getClass().getAnnotation(EntityController.class).id();
+    }
 
-    protected abstract Class<?> getRequestDtoClass();
+    protected Class<D> getRequestDtoClass() {
+        return (Class<D>) this.getClass().getAnnotation(EntityController.class).dto();
+    }
 
     @Get
     protected ApiListResponse<T> getAll() {
@@ -43,6 +46,7 @@ public abstract class CrudController<T, V, D> {
 
     @Put("{id}")
     protected ApiResponse<T> update(@PathVariable("id") V id, @Valid @RequestBody D body) {
+//        crudService.u
         return new ApiResponse<>();
     }
 

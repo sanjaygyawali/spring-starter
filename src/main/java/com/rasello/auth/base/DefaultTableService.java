@@ -36,6 +36,7 @@ public class DefaultTableService implements TableService {
         int count = request.getCount() > 0 ? request.getCount() : 1;
         var pageRequest = PageRequest.of(currentPage, count);
         var page = executor.findAll(spec, pageRequest);
+
         var response = new TableResponse<E>();
         response.setRequest(request);
         response.setData(page.getContent());

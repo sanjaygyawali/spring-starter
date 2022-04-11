@@ -36,17 +36,21 @@ mail:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+#    disable-swagger-default-url: true
+#  remove-broken-reference-definitions: false
 
 camunda.bpm:
-#  admin-user:
-#    id: demo
-#    password: demo
-#    firstName: Demo
-#    lastName: Demo
-  filter:
-    create: All Tasks
-  authorization:
-    enabled: true
+  job-execution:
+    deployment-aware: true
+  history-level: FULL
+  authorization.enabled: true
+  default-serialization-format: application/json
+  filter.create: All Tasks
+
+rest.security:
+  enabled: true
+  provider: keycloak
+  required-audience: camunda-rest-api
 
 keycloak:
   realm: camunda
@@ -62,3 +66,29 @@ plugin.identity.keycloak:
   clientSecret: pdgDzBNzeYkJmxHfUC1KjU4v5BwQ9myb
   useUsernameAsCamundaUserId: true
   disableSSLCertificateValidation: true
+  administratorGroupName: camunda-admin
+
+# Spring Boot Security OAuth2 SSO
+spring.security:
+  oauth2:
+    client:
+      registration:
+        keycloak:
+          provider: keycloak
+          client-id: camunda-identity-service
+          client-secret: pdgDzBNzeYkJmxHfUC1KjU4v5BwQ9myb
+          authorization-grant-type: authorization_code
+          redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+          scope: openid, profile, email
+      provider:
+        keycloak:
+          issuer-uri: http://124.41.241.106:8080/auth/realms/camunda
+          authorization-uri: http://124.41.241.106:8080/auth/realms/camunda/protocol/openid-connect/auth
+          user-info-uri: http://124.41.241.106:8080/auth/realms/camunda/protocol/openid-connect/userinfo
+          token-uri: http://124.41.241.106:8080/auth/realms/camunda/protocol/openid-connect/token
+          jwk-set-uri: http://124.41.241.106:8080/auth/realms/camunda/protocol/openid-connect/certs
+          # set user-name-attribute one of:
+          # - sub                -> default; using keycloak ID as camunda user ID
+          # - email              -> useEmailAsCamundaUserId=true
+          # - preferred_username -> useUsernameAsCamundaUserId=true
+          user-name-attribute: preferred_username

@@ -26,4 +26,9 @@ public class DefaultCrudService implements CrudService {
             throw new RecordNotFoundException("Record not found");
         return data;
     }
+
+    @Override
+    public <T, D> D save(T row, Class<D> dtoClass) {
+        return null;
+    }
 }
