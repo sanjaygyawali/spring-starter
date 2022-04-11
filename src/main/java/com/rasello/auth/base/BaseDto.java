@@ -1,4 +1,7 @@
 package com.rasello.auth.base;
 
-public interface BaseDto<T> {
+import javax.persistence.EntityManager;
+
+public interface IBaseDto<T> {
+    T toEntity(EntityManager em);
 }
