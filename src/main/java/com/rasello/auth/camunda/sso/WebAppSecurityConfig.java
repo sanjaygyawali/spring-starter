@@ -14,7 +14,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.request.RequestContextListener;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.filter.ForwardedHeaderFilter;
 
 /**
@@ -36,11 +40,11 @@ public class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().disable().and().csrf()
-                .ignoringAntMatchers("/camunda/api/**", "/engine-rest/**","/resource/**","/menus/**","/h2/**").and().requestMatchers().antMatchers("/**")
+                .ignoringAntMatchers("/camunda/api/**","/api/**", "/engine-rest/**","/resource/**","/menus/**","/h2/**").and().requestMatchers().antMatchers("/**")
                 .and()
 
                 .authorizeRequests(authorizeRequests -> authorizeRequests
-                        .antMatchers("/camunda/app/**", "/api/**", "/lib/**")
+                        .antMatchers("/camunda/app/**", "/lib/**")
                         .authenticated()
                         .anyRequest().permitAll()
                 )
@@ -78,5 +82,21 @@ public class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Order(0)
     public RequestContextListener requestContextListener() {
         return new RequestContextListener();
+    }
+
+    @Bean
+    public CorsFilter corsFilter(){
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+//        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+//            source.registerCorsConfiguration("/management/**", config);
+//            source.registerCorsConfiguration("/v3/api-docs", config);
+//            source.registerCorsConfiguration("/swagger-ui/**", config);
+
+        return new CorsFilter(source);
     }
 }

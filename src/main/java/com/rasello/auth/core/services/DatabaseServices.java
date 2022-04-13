@@ -1,7 +1,6 @@
 package com.rasello.auth.core.services;
 
-import com.rasello.auth.core.services.dto.DbModule;
-import com.rasello.auth.core.services.entity.BaseEntity;
+import com.rasello.auth.core.dto.DbModule;
 import com.rasello.auth.core.services.entity.Forms;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,8 +21,8 @@ public class DatabaseServices {
     @Autowired
     DatabaseModelService databaseModelService;
 
-//    @Autowired
-//    DatabaseModelConfiguration databaseModelConfiguration;
+    @Autowired
+    DatabaseModelConfiguration databaseModelConfiguration;
 
     @PostConstruct
     private void afterConfigurationInit(){
@@ -32,12 +30,13 @@ public class DatabaseServices {
     }
 
     private void initializeDatabaseModelService(){
-        var mappings = DatabaseModelConfiguration.fetchEntityMappings();
+        var mappings = databaseModelConfiguration.fetchEntityMappings();
 //        let services = new Data
         for(Map.Entry<String, DbModule> item: mappings.entrySet()) {
             var instance = databaseModelService;
             instance.setEntity(item.getValue().getEntity());
             instance.setDto(item.getValue().getDto());
+            instance.setRepository(item.getValue().getRepository());
             try {
                 DatabaseServices.services.put(item.getKey(), instance);
             }catch ( Exception e ){

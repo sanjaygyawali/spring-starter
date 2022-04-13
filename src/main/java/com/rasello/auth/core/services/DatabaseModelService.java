@@ -2,9 +2,10 @@ package com.rasello.auth.core.services;
 
 import com.rasello.auth.base.BaseDto;
 import com.rasello.auth.core.services.entity.BaseEntity;
+import com.rasello.auth.core.services.entity.Forms;
 import com.rasello.auth.exception.RecordNotFoundException;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,23 +13,28 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.List;
 
-//@Service
-public class DatabaseModelService<T extends  BaseEntity>{
+@Service
+public class DatabaseModelService<T extends  BaseDto>{
     @Autowired
     private  EntityManager entityManager;
-    @Autowired
-    private ModelMapper modelMapper;
+//    @Autowired
+//    private ModelMapper modelMapper;
     private Class<?extends BaseEntity> entity;
     private Class<?extends BaseDto> dto;
+    private JpaRepository repository;
     public void setEntity(Class<? extends BaseEntity> entity) {
         this.entity = entity;
     }
     public void setDto(Class<? extends BaseDto> dto){
         this.dto = dto;
     }
+
+    public void setRepository(JpaRepository repository) {
+        this.repository = repository;
+    }
     @Transactional
     public BaseDto save(BaseDto dto){
-        this.modelMapper.map(dto, this.entity);
+//        this.modelMapper.map(dto, this.entity);
         entityManager.persist(dto);
         return dto;
     }
@@ -70,8 +76,15 @@ public class DatabaseModelService<T extends  BaseEntity>{
     @Transactional
     public BaseEntity updateOneById(Long id, T dto) {
         var entity = entityManager.find(this.entity, id);
-        dto.setId(id);
-        this.modelMapper.map(dto,entity);
+//        dto.setId(id);
+//        this.modelMapper.map(dto,entity);
         return entityManager.merge(entity);
+    }
+
+
+    ///////////////////////////////////////////////////////////////
+
+    public Object rsave(Forms form){
+        return repository.save(form);
     }
 }

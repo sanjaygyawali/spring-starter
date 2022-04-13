@@ -1,9 +1,8 @@
-package com.rasello.auth.core.services.controller;
+package com.rasello.auth.core.controller;
 
-import com.rasello.auth.base.BaseDto;
 import com.rasello.auth.core.services.DatabaseServices;
-import com.rasello.auth.core.services.MenuDto;
 import com.rasello.auth.core.services.entity.BaseEntity;
+import com.rasello.auth.core.services.entity.Forms;
 import com.rasello.auth.core.services.entity.Menus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -11,17 +10,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-//@RestController
-//@RequestMapping("resource/{form}")
-//@RequiredArgsConstructor
-public class FormController {
+@RestController
+@RequestMapping("resource/{form}")
+@RequiredArgsConstructor
+public class EntityController {
 
 //    TODO: for all response manage proper response format also paginated list is implemented by this method.
     public void list(@PathVariable("form") String form){
         //TODO: get data for update.
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public List get(@PathVariable("form") String form){
         var formModelService = DatabaseServices.getModelService(form);
         return formModelService.findAll();
@@ -33,11 +32,11 @@ public class FormController {
         return formModelService.findById(id);
     }
 
-    @PostMapping("/")
-    public MenuDto save(@PathVariable("form") String form, @RequestBody BaseDto item){
+    @PostMapping("")
+    public Object save(@PathVariable("form") String form, @RequestBody Forms item){
+        
         var formModelService = DatabaseServices.getModelService(form);
-        formModelService.save(item);
-        return null;
+        return formModelService.rsave(item);
     }
 
     @PutMapping("/{id}")
@@ -45,7 +44,8 @@ public class FormController {
                                          @PathVariable("id") Long id,
                                          @RequestBody Menus item ){
         var formModelService = DatabaseServices.getModelService(form);
-        return formModelService.updateOneById(id, item);
+//        return formModelService.updateOneById(id, item);
+        return null;
     }
 
     @DeleteMapping("/{id}")

@@ -35,6 +35,7 @@ public class RaselloAuthApplication {
     public static void main(String[] args) {
         try {
             SpringApplication.run(RaselloAuthApplication.class, args);
+            System.out.println(org.hibernate.Version.getVersionString());
         }catch (Exception error){
             log.error(error.toString());
         }

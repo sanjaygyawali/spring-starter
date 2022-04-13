@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    @PostConstruct
+//    @PostConstruct
     protected void onInitialized() {
         userRepository.deleteAll();
         var userRole = new Role("user", "USER");

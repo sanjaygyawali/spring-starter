@@ -14,7 +14,7 @@
     <name>rasello-auth</name>
     <description>rasello-auth</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>15</java.version>
         <spring-cloud.version>2021.0.0-RC1</spring-cloud.version>
         <querydsl.version>5.0.0</querydsl.version>
     </properties>
@@ -139,11 +139,11 @@
             <version>1.5.12</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>com.vladmihalcea</groupId>-->
-<!--            <artifactId>hibernate-types-52</artifactId>-->
-<!--            <version>2.2.2</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.vladmihalcea</groupId>
+            <artifactId>hibernate-types-55</artifactId>
+            <version>2.15.2</version>
+        </dependency>
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -246,6 +246,14 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>14</source>
+                    <target>14</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -1,6 +1,6 @@
 package com.rasello.auth.core.services;
 
-import com.rasello.auth.core.services.dto.DbModule;
+import com.rasello.auth.core.dto.DbModule;
 import com.rasello.auth.core.services.entity.Forms;
 import com.rasello.auth.core.services.entity.Menus;
 import com.rasello.auth.repository.FormRepository;
@@ -9,28 +9,30 @@ import org.springdoc.core.customizers.OpenApiCustomiser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
-import java.util.List;
 
 
-//@Configuration
+@Configuration
 public class DatabaseModelConfiguration {
     @Bean
     public ModelMapper modelMapper(){
         return new ModelMapper();
     }
 
-//    @Autowired
-//    List<JpaRepository> formRepository;
+    @Autowired
+    FormRepository formRepository;
 
+    @PostConstruct
+    public void testMethod(){
+        var test = 1;
+    }
 
-    public static HashMap<String, DbModule> fetchEntityMappings(){
+    public HashMap<String, DbModule> fetchEntityMappings(){
 //        TODO: mapping registration should be dynamic through annotation.
         HashMap <String, DbModule>   configurations = new HashMap<String,DbModule>();
-//        configurations.put("forms", DbModule.builder().entity(Forms.class).repository(formRepository).build());
+        configurations.put("forms", DbModule.builder().entity(Forms.class).repository(formRepository).build());
         configurations.put("menus", DbModule.builder().entity(Menus.class).build());
         return configurations;
     }

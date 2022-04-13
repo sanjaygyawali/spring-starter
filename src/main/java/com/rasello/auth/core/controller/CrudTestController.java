@@ -1,8 +1,10 @@
-package com.rasello.auth.core.services;
+package com.rasello.auth.core.controller;
 
 import com.rasello.auth.base.CrudController;
 import com.rasello.auth.base.annotation.EntityController;
 import com.rasello.auth.base.annotation.Get;
+import com.rasello.auth.core.services.DatabaseModelService;
+import com.rasello.auth.core.services.DatabaseServices;
 import com.rasello.auth.core.services.entity.BaseEntity;
 import com.rasello.auth.core.services.entity.Forms;
 import com.rasello.auth.response.ApiResponse;
@@ -75,6 +77,7 @@ public class CrudTestController extends CrudController<Forms, Long, Forms> {
     @PutMapping("/update/{id}")
     public BaseEntity updateSingleEntity(@PathVariable("id") Long id,@RequestBody Forms item ){
         var formModelService = DatabaseServices.getModelService("forms");
-        return formModelService.updateOneById(id, item);
+//        return formModelService.updateOneById(id, item);
+        return null;
     }
 }
