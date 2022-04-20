@@ -1,8 +1,10 @@
 package com.rasello.auth.controller;
 
+import com.rasello.auth.base.TableRequest;
+import com.rasello.auth.base.TableResponse;
 import com.rasello.auth.core.common.HeaderUtil;
 import com.rasello.auth.core.common.ResponseUtil;
-import com.rasello.auth.core.services.entity.Forms;
+import com.rasello.auth.entity.Forms;
 import com.rasello.auth.repository.FormRepository;
 import com.rasello.auth.services.FormService;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +42,7 @@ public class FormController {
     @PutMapping("/{id}")
     public ResponseEntity<Forms> update(@PathVariable(value = "id", required = false) final Long id, @RequestBody Forms form)
             throws URISyntaxException {
+        form.setId(id);
         Forms result = formService.save(form);
         return ResponseEntity
                 .ok()
@@ -64,6 +68,18 @@ public class FormController {
         return data;
     }
 
+
+    @GetMapping("/list")
+//    @RequestBody TableRequest request
+    public TableResponse<Forms> getDataList(){
+        var request = new TableRequest();
+        request.setPage(0);
+        request.setCount(10);
+        request.setTableFields(new ArrayList<>());
+        request.setOutputFields(new ArrayList<>());
+        return  formService.getDataList(request);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Forms> get(@PathVariable Long id) {
         Optional<Forms> form = formService.findOne(id);
@@ -79,6 +95,12 @@ public class FormController {
                 .headers(HeaderUtil.createEntityDeletionAlert("APP NAME", true, "FORMS ", id.toString()))
                 .build();
     }
+
+    @GetMapping("schema/{schemaName}")
+    public Forms retriveSchemaForResource(@PathVariable("schemaName") String schemaName){
+       return formService.retriveSchemaForResource(schemaName);
+    }
+
 
 
 }

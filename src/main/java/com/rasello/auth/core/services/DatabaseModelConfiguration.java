@@ -1,8 +1,8 @@
 package com.rasello.auth.core.services;
 
 import com.rasello.auth.core.dto.DbModule;
-import com.rasello.auth.core.services.entity.Forms;
-import com.rasello.auth.core.services.entity.Menus;
+import com.rasello.auth.entity.Forms;
+import com.rasello.auth.entity.Menus;
 import com.rasello.auth.repository.FormRepository;
 import org.modelmapper.ModelMapper;
 import org.springdoc.core.customizers.OpenApiCustomiser;

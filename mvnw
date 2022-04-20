@@ -119,7 +119,7 @@ fi
 if [ -z "$JAVA_HOME" ]; then
   javaExecutable="`which javac`"
   if [ -n "$javaExecutable" ] && ! [ "`expr \"$javaExecutable\" : '\([^ ]*\)'`" = "no" ]; then
-    # readlink(1) is not available as standard on Solaris 10.
+    # readlink(1) is not available as standard on Solaris 1.
     readLink=`which readlink`
     if [ ! `expr "$readLink" : '\([^ ]*\)'` = "no" ]; then
       if $darwin ; then
@@ -178,7 +178,7 @@ find_maven_basedir() {
       basedir=$wdir
       break
     fi
-    # workaround for JBEAP-8937 (on Solaris 10/Sparc)
+    # workaround for JBEAP-8937 (on Solaris 1/Sparc)
     if [ -d "${wdir}" ]; then
       wdir=`cd "$wdir/.."; pwd`
     fi

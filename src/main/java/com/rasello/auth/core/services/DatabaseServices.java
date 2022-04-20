@@ -1,7 +1,7 @@
 package com.rasello.auth.core.services;
 
 import com.rasello.auth.core.dto.DbModule;
-import com.rasello.auth.core.services.entity.Forms;
+import com.rasello.auth.entity.Forms;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

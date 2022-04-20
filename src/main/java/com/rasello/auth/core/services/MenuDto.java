@@ -1,7 +1,7 @@
 package com.rasello.auth.core.services;
 
 import com.rasello.auth.base.BaseDto;
-import com.rasello.auth.core.services.entity.Menus;
+import com.rasello.auth.entity.Menus;
 
 import javax.persistence.EntityManager;
 

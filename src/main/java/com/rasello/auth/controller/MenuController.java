@@ -2,7 +2,7 @@ package com.rasello.auth.controller;
 
 import com.rasello.auth.core.common.HeaderUtil;
 import com.rasello.auth.core.common.ResponseUtil;
-import com.rasello.auth.core.services.entity.Menus;
+import com.rasello.auth.entity.Menus;
 import com.rasello.auth.services.MenuService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,10 +31,20 @@ public class MenuController {
                 .body(result);
     }
 
+    @PostMapping("/{id}")
+    public ResponseEntity<Menus> createCustom(@PathVariable("id") final Long id ,@RequestBody Menus entity) throws URISyntaxException {
+        entity.setId(id);
+        Menus result = entityService.save(entity);
+        return ResponseEntity
+                .created(new URI("/api/countries/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert("TEST", true, "forms", result.getId().toString()))
+                .body(result);
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Menus> update(@PathVariable(value = "id", required = false) final Long id, @RequestBody Menus entity)
             throws URISyntaxException {
+        entity.setId(id);
         Menus result = entityService.save(entity);
         return ResponseEntity
                 .ok()

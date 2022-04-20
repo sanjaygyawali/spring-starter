@@ -2,7 +2,7 @@ package com.rasello.auth.core.services;
 
 import com.rasello.auth.base.BaseDto;
 import com.rasello.auth.core.services.entity.BaseEntity;
-import com.rasello.auth.core.services.entity.Forms;
+import com.rasello.auth.entity.Forms;
 import com.rasello.auth.exception.RecordNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;

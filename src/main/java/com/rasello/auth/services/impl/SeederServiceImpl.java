@@ -49,4 +49,5 @@ public class SeederServiceImpl implements SeederService {
     public void delete(Long id) {
         repository.deleteById(id);
     }
+
 }

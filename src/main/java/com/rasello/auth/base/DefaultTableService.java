@@ -3,6 +3,7 @@ package com.rasello.auth.base;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.support.Repositories;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class DefaultTableService implements TableService {
     public <E, I> TableResponse<E> getDatatable(Class<E> entityClass, Class<I> idClass, TableRequest request) {
         var spec = this.createSpecification(entityClass, request);
         var repositories = new Repositories(context);
-        var repository = repositories.getRepositoryFor(entityClass).orElseThrow(() -> new RuntimeException("No repository found for entity class " + entityClass.getName()));
+        var repository = (JpaRepository) repositories.getRepositoryFor(entityClass).orElseThrow(() -> new RuntimeException("No repository found for entity class " + entityClass.getName()));
         var executor = (JpaSpecificationExecutor<E>) repository;
         int currentPage = request.getPage() > 0 ? request.getPage() - 1 : 0;
         int count = request.getCount() > 0 ? request.getCount() : 1;

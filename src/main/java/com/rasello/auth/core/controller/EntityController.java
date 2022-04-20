@@ -2,8 +2,8 @@ package com.rasello.auth.core.controller;
 
 import com.rasello.auth.core.services.DatabaseServices;
 import com.rasello.auth.core.services.entity.BaseEntity;
-import com.rasello.auth.core.services.entity.Forms;
-import com.rasello.auth.core.services.entity.Menus;
+import com.rasello.auth.entity.Forms;
+import com.rasello.auth.entity.Menus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

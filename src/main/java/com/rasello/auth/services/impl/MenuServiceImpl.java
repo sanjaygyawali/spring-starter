@@ -1,7 +1,6 @@
 package com.rasello.auth.services.impl;
 
-import com.rasello.auth.core.annotation.Traceable;
-import com.rasello.auth.core.services.entity.Menus;
+import com.rasello.auth.entity.Menus;
 import com.rasello.auth.repository.MenuRepository;
 import com.rasello.auth.services.MenuService;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,7 @@ public class MenuServiceImpl implements MenuService {
 
 
     @Override
-    @Traceable
+//    @Seedable
     public Menus save(Menus entity) {
         return repository.save(entity);
     }
@@ -51,5 +50,11 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public void delete(Long id) {
         repository.deleteById(id);
+    }
+
+
+    @Override
+    public List<Menus> getAllMenusForUser() {
+       return this.repository.findAll();
     }
 }

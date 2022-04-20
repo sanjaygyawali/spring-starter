@@ -1,6 +1,9 @@
 package com.rasello.auth.services;
 
-import com.rasello.auth.core.services.entity.Menus;
+import com.rasello.auth.entity.Menus;
 
-public interface MenuService extends BaseService<Menus> {
+import java.util.List;
+
+public interface MenuService extends IBaseService<Menus> {
+    List<Menus> getAllMenusForUser();
 }

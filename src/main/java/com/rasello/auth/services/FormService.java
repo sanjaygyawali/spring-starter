@@ -1,9 +1,10 @@
 package com.rasello.auth.services;
 
-import com.rasello.auth.core.services.entity.Forms;
+import com.rasello.auth.base.TableRequest;
+import com.rasello.auth.base.TableResponse;
+import com.rasello.auth.entity.Forms;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface FormService extends BaseService<Forms> {
+public interface FormService extends IBaseService<Forms> {
+    Forms retriveSchemaForResource(String schemaName);
+    TableResponse<Forms> getDataList(TableRequest tableRequest);
 }
