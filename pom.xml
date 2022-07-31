@@ -17,13 +17,14 @@
         <java.version>15</java.version>
         <spring-cloud.version>2021.0.0-RC1</spring-cloud.version>
         <querydsl.version>5.0.0</querydsl.version>
+        <camunda.version>7.16.0</camunda.version>
     </properties>
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.camunda.bpm</groupId>
                 <artifactId>camunda-bom</artifactId>
-                <version>7.16.0</version>
+                <version>${camunda.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -210,16 +211,30 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.camunda.bpm.run</groupId>
+            <artifactId>camunda-bpm-run-modules-swaggerui</artifactId>
+            <version>${camunda.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.camunda.bpm</groupId>
+            <artifactId>camunda-engine-rest-openapi</artifactId>
+            <version>${camunda.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.camunda.bpm</groupId>
+            <artifactId>camunda-engine-rest</artifactId>
+            <classifier>classes</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.camunda.bpm</groupId>
+            <artifactId>camunda-engine-spring</artifactId>
+        </dependency>
         <!-- required to use H2 as a file based database (Otherwise it's In-Memory) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 
@@ -264,6 +279,11 @@
         </plugins>
     </build>
     <repositories>
+        <repository>
+            <id>camunda-bpm-nexus</id>
+            <name>Camunda Maven Repository</name>
+            <url>https://artifacts.camunda.com/artifactory/public/</url>
+        </repository>
         <repository>
             <id>maven-central</id>
             <name>Maven Central</name>

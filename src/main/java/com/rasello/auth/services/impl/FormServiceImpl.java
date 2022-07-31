@@ -65,7 +65,7 @@ public class FormServiceImpl implements FormService  {
     }
 
     @Override
-    public Forms retriveSchemaForResource(String schemaName) {
+    public Forms retrieveSchemaForResource(String schemaName) {
         return repository.findOneByName(schemaName);
     }
 }

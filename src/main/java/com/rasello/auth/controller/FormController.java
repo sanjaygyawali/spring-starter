@@ -97,8 +97,8 @@ public class FormController {
     }
 
     @GetMapping("schema/{schemaName}")
-    public Forms retriveSchemaForResource(@PathVariable("schemaName") String schemaName){
-       return formService.retriveSchemaForResource(schemaName);
+    public Forms retrieveSchemaForResource(@PathVariable("schemaName") String schemaName){
+       return formService.retrieveSchemaForResource(schemaName);
     }
 
 
